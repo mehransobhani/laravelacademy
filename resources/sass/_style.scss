@@ -1,0 +1,19 @@
+:focus {
+    outline: none;
+}
+body{
+    font-family: 'IRANSansFaNum' , 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: #757575;
+    text-align: right;
+}
+.direction-rtl {
+    direction: rtl;
+}
+
+.direction-ltr {
+    direction: ltr;
+}
+.IRANSans{
+    font-family: 'IRANSans' , 'Roboto', sans-serif !important;
+}

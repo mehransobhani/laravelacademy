@@ -1,0 +1,25 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+//packages
+@import '~material-design-iconic-font/dist/css/material-design-iconic-font.css';
+@import '~persian-datepicker/src/sass/persian-datepicker';
+@import '~simplebar/dist/simplebar.css';
+@import '~simple-line-icons/css/simple-line-icons.css';
+@import '~select2/dist/css/select2.css';
+@import '~cropperjs/dist/cropper.css';
+@import './packages/FontAwesome.Pro.5.15.1.Web/css/all.css';
+@import './packages/IRANSans/Farsi_numerals/webFonts/css/fontiran.css';
+@import './packages/IRANSans/WebFonts/css/fontiran.css';
+
+//custom
+@import 'style';
+@import 'adminPanel';
+@import 'auth';
+@import 'payment';

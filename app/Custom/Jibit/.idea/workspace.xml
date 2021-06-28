@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="572380e6-3f32-4b6a-8877-5b3e096f82af" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="af87ad8e-8194-40cf-ab56-bc4c5398c4b1" name="localhost" />
+    </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.3" />
+  <component name="ProjectId" id="1afBMUUBWftlRyaXSQbiyDfNe5R" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager" selected="PHP Script.Verify.php">
+    <configuration name="Request.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Request.php">
+      <method v="2" />
+    </configuration>
+    <configuration name="Verify.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Verify.php">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="localhost">
+      <method v="2" />
+    </configuration>
+    <configuration name="localhost" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="localhost" start_url="/test/">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="PHP Script.Request.php" />
+      <item itemvalue="PHP Script.Verify.php" />
+      <item itemvalue="PHP Web Page.localhost" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.Verify.php" />
+        <item itemvalue="PHP Script.Request.php" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="572380e6-3f32-4b6a-8877-5b3e096f82af" name="Default Changelist" comment="" />
+      <created>1587116719950</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587116719950</updated>
+      <workItem from="1587116721561" duration="3411000" />
+      <workItem from="1587126935439" duration="65000" />
+      <workItem from="1587127028594" duration="195000" />
+      <workItem from="1587127339332" duration="6000" />
+      <workItem from="1588268819425" duration="2902000" />
+      <workItem from="1588326609538" duration="37000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="867" y="382" key="#CLI_Interpreters" timestamp="1588269381923">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="867" y="382" key="#CLI_Interpreters/0.0.2560.1440@0.0.2560.1440" timestamp="1588269381923" />
+    <state x="959" y="279" key="#PHP" timestamp="1588269388030">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="959" y="279" key="#PHP/0.0.2560.1440@0.0.2560.1440" timestamp="1588269388030" />
+    <state x="867" y="382" key="#Servers" timestamp="1588269557013">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="867" y="382" key="#Servers/0.0.2560.1440@0.0.2560.1440" timestamp="1588269557013" />
+    <state x="744" y="382" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588269636276">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="744" y="382" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1588269636276" />
+    <state width="2518" height="419" key="GridCell.Tab.0.bottom" timestamp="1588277669542">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="419" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1588277669542" />
+    <state width="2518" height="419" key="GridCell.Tab.0.center" timestamp="1588277669541">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="419" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1588277669541" />
+    <state width="2518" height="419" key="GridCell.Tab.0.left" timestamp="1588277669541">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="419" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1588277669541" />
+    <state width="2518" height="419" key="GridCell.Tab.0.right" timestamp="1588277669542">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="419" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1588277669542" />
+  </component>
+</project>

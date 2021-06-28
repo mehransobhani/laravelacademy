@@ -1,0 +1,53 @@
+#auth {
+    background: linear-gradient(-45deg,#011a62, #223775);
+    background-size: 100% 100%;
+    font-size: .95rem;
+    color: #717171;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 0;
+    min-height:100vh;
+
+    .login-wrapper{
+        min-height: 100vh;
+    }
+
+    .card-authentication{
+        width: 100%;
+        max-width: 354px;
+    }
+
+    .card-body {
+        padding: 4rem 1rem;
+    }
+
+    .login-wrapper .card-authentication .card-group {
+        box-shadow: 0 5px 15px rgba(57, 98, 254, .02), 0 3px 6px rgba(117, 108, 254, .12);
+    }
+
+    .login-wrapper .card-group .card {
+        box-shadow: none;
+        border: none;
+    }
+
+    .form-control-position {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+    }
+    .form-control:focus{
+        box-shadow: none;
+    }
+
+    .auth_error_message{
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 0.8rem;
+        color: #e3342f;
+    }
+
+
+
+}
