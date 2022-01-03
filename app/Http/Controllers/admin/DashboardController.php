@@ -130,8 +130,10 @@ class DashboardController extends Controller
 
         echo " تعداد فروش کلاس ".  $class_trans->count() .'<br><br>';
         echo " فروش ".  number_format($class_trans->sum("price")) ." تومان ".'<br><br>';
+        echo "<hr>";
 
-
+        $link = "https://academy.honari.com/admin/classtrans-by-time-excel-export?start=" . $request->start . "&end=" . $request->end;
+        echo "<a target='_blank' style='display:inline-block;text-decoration:none;margin-top:15px;background-color:#217346;color:#FFFFFF;padding: 5px 15px;' href='".$link."'>گزارش فروش این دوره</a>";
 
     }
 

@@ -54,6 +54,13 @@ class ClassTrans extends Model
 جهت پرسیدن سوالات و اشکالات خود در زمینه ی کلاس به چت داخل سایت مراجعه نمایید.";
                 $receptor = [$user->username];
                 $result = $api->Send($sender,$receptor,$message);
+
+		$feedbackApi = new \Kavenegar\KavenegarApi( "7358684B76496D5079754170615766594F534A31724130495344335152326D4F" );
+        	$feedBackMessage = "سلام، لطفا با پاسخ به سوالات لینک زیر به افزایش کیفیت آموزش‌ها کمک کنید." . "\n";
+        	$feedBackMessage = $feedBackMessage . "ممنون که هنری رو برای یادگیری انتخاب کردین." . "\n";
+        	$feedBackMessage = $feedBackMessage . "honari.com/a/cls_s";
+		$sendDate = time() + 12600;
+		$result = $feedbackApi->Send($sender,$receptor,$feedBackMessage, $sendDate);
             }
 
 

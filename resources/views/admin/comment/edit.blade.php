@@ -29,7 +29,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-12 p-0">
-                                <a href="{{ route('course.steps.edit' ,  [ $comment->get_step->get_course->id , $comment->get_step->id ]) }}">
+                                <a href="{{ config("app.class_next_url") . "/courses/" . $comment->get_step->get_course->urlfa . "/" . $comment->get_step->urlKey }}">
                                     <h4 class="text-primary">{{ $comment->get_step->name }}</h4></a>
                                 <form method="post"
                                       action="{{ $comment->get_parent ? route('comment.reply.update' , $comment->id) : route('comment.update' , $comment->id) }}">

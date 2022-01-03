@@ -62,9 +62,8 @@ Route::post('transaction-excel-export', 'ExcelController@transactionExport')->na
 Route::get('transaction-excel-export', 'ExcelController@transactionExportIndex')->name('transaction.excel.index');
 Route::post('user-excel-export', 'ExcelController@userExport')->name('user.excel');
 Route::get('user-excel-export', 'ExcelController@userExportIndex')->name('user.excel.index');
+Route::get('classtrans-by-time-excel-export', 'ExcelController@classTransactionExport')->name('classtrans-by-time-excel-export');
 
 
 Route::get('/', "DashboardController@index")->name('dashboard');
-
-
 Route::get('/query/courseclass_result', "DashboardController@courseclass_result")->name('courseclass_result');

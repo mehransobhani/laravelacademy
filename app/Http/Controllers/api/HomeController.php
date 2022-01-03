@@ -30,9 +30,9 @@ class HomeController extends Controller
     public function course(Request $request){
 
         $course = Course::query();
-
+	
         $course->with(['get_teacher' , 'arts'])->withCount('get_steps')->where("status" , 1);
-
+	
         if($request->category){
             if(is_array($request->category)){
                 $course->whereHas('arts' , function($q) use ($request)
@@ -56,7 +56,7 @@ class HomeController extends Controller
         }
 
         $course = $course->orderBy('create_at' , 'desc')->paginate(9);
-
+	
         $course->makeHidden([
             'bundles',
             'create_at',
@@ -106,11 +106,9 @@ class HomeController extends Controller
 
 
     public function courseSingle($course_urlfa){
-
         $user = Auth::guard('api')->user();
 
         $course = Course::query();
-
 
         $course->with([
             'get_teacher' ,
@@ -127,7 +125,7 @@ class HomeController extends Controller
         ]);
 
         if ($user){
-            if (!in_array($user->role , ['admin' , 'contenter'])){
+            if (!in_array($user->role , ['admin', 'contenter', 'writer'])){
                 $course->where([
                     ["status" , '=' ,1],
                 ]);
@@ -153,7 +151,7 @@ class HomeController extends Controller
         $users_array = $course->get_users->pluck('id')->toArray();
         $course->member_count = count($users_array);
         if ($user){
-            if (in_array($user->role , ['admin' , 'teacher' , 'contenter']) ){
+            if (in_array($user->role , ['admin' , 'teacher' , 'contenter' , 'writer']) ){
                 $course->is_owner = true;
             }
             else if (in_array($user->id , $users_array)){
@@ -173,12 +171,13 @@ class HomeController extends Controller
     }
 
     public function stepSingle($step_urlkey){
-
+	//var_dump(1);die();
 
         $step = Step::with(['get_course.get_steps' => function($query) {
             $query->addSelect(['id', 'name', 'class_id' , 'img' , 'order' , 'urlKey']);
-        }])->where('urlkey' , $step_urlkey)->first();
+        }])->where('urlkey' , $step_urlkey)->where('status', 1)->first();
         $user = Auth::guard('api')->user();
+	//var_dump($user);die();
 
         if (!$step){
             return response()->json(['message'=> '404 not find'], 404);
@@ -187,10 +186,14 @@ class HomeController extends Controller
 
         if ($step->order !== 1)
         {
+	    //var_dump($step);die();
+	    //var_dump($user);die();
             if($user){
-                if(!in_array($user->role , ['admin' , 'contenter'])){
+                if(!in_array($user->role , ['admin' , 'contenter', 'writer'])){
+		    //var_dump($user);die();
                     if($user->get_courses){
                         $user_courses_id = $user->get_courses->pluck("id")->toArray();
+			//var_dump($user_course_id);die();
                         if(!in_array($step->get_course->id,$user_courses_id)){
                             return response()->json(['message'=> 'user does not have access.'] , 403);
                         }
@@ -299,7 +302,7 @@ class HomeController extends Controller
         $comment->replyToID = $request->replyToID;
         $comment->onSection = 3;
         $comment->onIDofSection = $request->onIDofSection;
-        if (in_array($user->role , ['admin' , 'contenter'])){
+        if (in_array($user->role , ['admin' , 'contenter', 'writer'])){
             $comment->visibilityStatus = 1;
         }
         else{
@@ -401,7 +404,7 @@ class HomeController extends Controller
         $users_array = $bundle->get_users->pluck('id')->toArray();
         $bundle->member_count = count($users_array);
         if ($user){
-            if (in_array($user->role , ['admin' , 'contenter' , 'teacher'])){
+            if (in_array($user->role , ['admin' , 'contenter' , 'teacher' , 'writer'])){
                 $bundle->is_owner = true;
             }
             else if (in_array($user->id , $users_array)){

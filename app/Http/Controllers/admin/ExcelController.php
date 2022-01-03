@@ -22,4 +22,8 @@ class ExcelController extends Controller
     public function userExportIndex(){
         return view('admin.excel.user');
     }
+
+    public function classTransactionExport(\Illuminate\Http\Request $request){
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\ClassTransByTimeExport($request), 'classTransactionByTime_'.str_replace('/' , '-' , fa_to_en($request->start_time)).'_'.str_replace('/' , '-' , fa_to_en($request->end_time)).'.xlsx');
+    }
 }

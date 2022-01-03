@@ -35,14 +35,14 @@ class AdminMiddleware
             $response = json_decode($server_output);
             if ($httpCode === 200 && $response->success) {
                 if (Auth::check()) {
-                    if ($response->data && in_array($response->data->role , ['admin' , 'contenter'])) {
+                    if ($response->data && in_array($response->data->role , ['admin' , 'contenter', 'writer'])) {
                         return $next($request);
                     } else {
                         Auth::logout();
                         return redirect()->away(config('app.login_url'));
                     }
                 } else {
-                    if ($response->data && in_array($response->data->role , ['admin' , 'contenter']) ) {
+                    if ($response->data && in_array($response->data->role , ['admin' , 'contenter', 'writer']) ) {
                         $user = User::where('username', $response->data->username)->first();
                         if ($user) {
                             Auth::loginUsingId($user->id);
