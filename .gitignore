@@ -3,7 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
+#env
 .env.backup
 .phpunit.result.cache
 Homestead.json
@@ -13,17 +13,17 @@ yarn-error.log
 
 
 #custom
-/public/fonts
-/public/dist
-/public/warehouse
-/public/images
-/resources/sass/packages
-/resources/js/custom/constants.js
-/public/cache
-/public/js/app.js
-/public/js/cropper
-/public/js/tinymceConfig.js
-/public/css/
-/public/sitemap.xml
-/public/sitemap/
-/storage/framework/laravel-excel
+#/public/fonts
+#/public/dist
+#/public/warehouse
+#/public/images
+#/resources/sass/packages
+#/resources/js/custom/constants.js
+#/public/cache
+#/public/js/app.js
+#/public/js/cropper
+#/public/js/tinymceConfig.js
+#/public/css/
+#/public/sitemap.xml
+#/public/sitemap/
+#/storage/framework/laravel-excel
