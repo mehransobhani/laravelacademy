@@ -46,6 +46,7 @@ Route::middleware(['CheckApiAuth'])->group( function () {
     Route::post ('/payment/check-discount'                      , 'api\PaymentController@checkDiscount');
     Route::get  ('/payment'                                     , 'api\PaymentController@request');
     Route::post ('/logout'                                      , 'api\UserController@logout' );
+    Route::post ('/log-user-footprint'                          , 'api\UserController@logUserFootprint'); // TO BE TESTED!
 });
 
 

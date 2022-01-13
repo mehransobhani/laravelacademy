@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -157,6 +158,23 @@ class HomeController extends Controller
             else if (in_array($user->id , $users_array)){
                 $course->is_owner = true;
             }
+	    if($user->role === NULL){
+                $time = time();
+                $courseRecord = DB::select(
+                    "SELECT id 
+                    FROM course_user 
+                    WHERE user_id = $user->id AND type_id = $course->id AND type IN ('class', 'bundle') "
+                );
+                if(count($courseRecord) === 0){
+                    DB::insert(
+                        "INSERT INTO user_footprints (
+                            user_id, course_id, action_id, date
+                        ) VALUES (
+                            $user->id, $course->id, 1, $time
+                        )"
+                    );
+                }
+            }
         }
 
         $course_array = $course->toArray();
@@ -183,6 +201,23 @@ class HomeController extends Controller
             return response()->json(['message'=> '404 not find'], 404);
         }
 
+	if($step->order === 1 && $user->role === NULL){
+            $time = time();
+            $courseRecord = DB::select(
+                "SELECT id 
+                FROM course_user 
+                WHERE user_id = $user->id AND type_id = $step->class_id AND type IN ('class', 'bundle')"
+            );
+            if(count($courseRecord) === 0){
+                DB::insert(
+                    "INSERT INTO user_footprints (
+                        user_id, course_id, action_id, date
+                    ) VALUES (
+                        $user->id, $step->class_id, 2, $time
+                    )"
+                );
+            }
+        }
 
         if ($step->order !== 1)
         {

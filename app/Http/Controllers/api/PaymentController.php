@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -95,6 +96,14 @@ class PaymentController extends Controller
         $response = $pasargad->getToken($params);
 
         if ($response->IsSuccess) {
+	    $time = time();
+            DB::insert(
+                "INSERT INTO user_footprints (
+                    user_id, course_id, action_id, date
+                ) VALUES (
+                    $user->id, $request->class_id, 4, $time
+                )"
+            );
             return "https://pep.shaparak.ir/payment.aspx?n=" .$response->Token ;
         }
         else {
@@ -189,12 +198,46 @@ class PaymentController extends Controller
                     $verResult = $pasargad->verifyPayment(['InvoiceNumber' => $request->iN , 'InvoiceDate' => $request->iD , 'Amount' => $class_trans->price*10 ]) ;
 
                     if ($verResult->IsSuccess) {
+			
+			$courseRecord = DB::select(
+                            "SELECT id 
+                            FROM course_user 
+                            WHERE user_id = $class_trans->user_id AND type_id = $class_id AND type IN ('class', 'bundle') "
+                        );
+                        if(count($courseRecord) === 0){
+                            /*
+			    $time = time();
+                        
+                            DB::insert(
+                                "INSERT INTO user_footprints (
+                                    user_id, course_id, action_id, date
+                                ) VALUES (
+                                    $class_trans->user_id, $class_id, 5, $time
+                                )"
+                            );
 
+			    */   
 
+                            DB::delete(
+                                "DELETE FROM user_footprints 
+                                WHERE user_id = $class_trans->user_id AND course_id = $class_id AND action_id IN (1,2,3,4) "
+                            );
+                        }
 
                         ClassTrans::successful_trans($class_trans , $course , $class_trans->price , $class_id , $TransactionReferenceID);
 
                         $slug = $course->kind === "bundle" ? "/bundles/". $course->urlfa : "/courses/".$course->urlfa;
+
+			/*
+			$time = time();
+                        DB::insert(
+                            "INSERT INTO user_footprints (
+                                user_id, course_id, action_id, date
+                            ) VALUES (
+                                $class_trans->user_id, $class_id, 5, $time
+                            )"
+                        );
+			*/
 
                         return view('payments.success' , compact('slug'));
 

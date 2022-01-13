@@ -68,8 +68,8 @@
                                                 <td>{{ $value->off }}</td>
                                                 <td>{{ $value->percent }}</td>
                                                 <td>{{ $value->usage->count() }}</td>
-                                                <td><?php echo jdate('Y/m/d -- h:m' , $value->start_time) ?></td>
-                                                <td><?php echo $value->end_time != 0 ?  jdate('Y/m/d -- h:m' , $value->end_time) : 'نامحدود' ?></td>
+                                                <td><?php echo jdate('Y/m/d -- H:i' , $value->start_time) ?></td>
+                                                <td><?php echo $value->end_time != 0 ?  jdate('Y/m/d -- H:i' , $value->end_time) : 'نامحدود' ?></td>
                                                 <td>
                                                     <div class="d-flex flex-column">
                                                         @foreach($value->courses as $key2=>$value2)

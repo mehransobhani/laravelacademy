@@ -421,6 +421,36 @@ class UserController extends Controller
         }
     }
 
-
+    public function logUserFootprint(Request $request){
+        if(!isset($request->actionId) || !isset($request->courseId)){
+            echo json_encode(array('status' => 'failed', 'source' => 'c', 'message' => 'not enough parameter', 'umessage' => 'ورودی کافی نیست'));
+            exit();
+        }
+        $user = Auth::guard('api')->user();
+        $courseId = $request->courseId;
+        $actionId = $request->actionId;
+	$time = time();
+	if($user->role !== NULL){
+	    echo json_encode(array('status' => 'done'));
+ 	    exit();
+	}
+        $courseRecord = DB::select(
+            "SELECT id 
+            FROM course_user 
+            WHERE user_id = $user->id AND type_id = $courseId AND type IN ('class', 'bundle')"
+        );
+        if(count($courseRecord) !== 0){
+            echo json_encode(array('status' => 'failed'));
+	    exit();
+        }
+        DB::insert(
+            "INSERT INTO user_footprints (
+                user_id, course_id, action_id, date 
+            ) VALUES ( 
+                $user->id, $courseId, $actionId, $time 
+            )"
+        );
+	echo json_encode(array('status' => 'done'));
+    } 
 
 }
