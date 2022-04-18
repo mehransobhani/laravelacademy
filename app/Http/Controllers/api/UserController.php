@@ -183,7 +183,7 @@ class UserController extends Controller
         $data = $output;
 
 
-        if ($httpCode === 200) {
+        if ($httpCode === 200 && $data !== "user is not authenticate.") {
 
             $user = Auth::guard('api')->user();
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,4 +99,60 @@ Route::get('/fix-gift-code-off-price' , function (){
 
     }
 
+});
+
+Route::get('/shop/new-four-courses', function(){
+	$courses = DB::select(
+            "SELECT id, `name`, cover_img, price, `off`, kind, urlfa FROM courses WHERE `status` = 1 ORDER BY create_at DESC LIMIT 4 "
+        );
+        if(count($courses) === 0){
+            echo json_encode(array('status' => 'done', 'found' => false, 'message' => 'could not find any available course', 'courses' => []));
+            exit();
+        }
+        foreach($courses as $course){
+            if($course->kind === 'class'){
+                $course->url = 'https://honari.com/academy/courses/' . $course->urlfa;
+            }else if($course->kind === 'bundle'){
+                $course->url = 'https://honari.com/academy/bundles/' . $course->urlfa;
+            }
+            $course->image = 'https://academy.honari.com/warehouse/images/classes/' . $course->cover_img;
+        }
+        echo json_encode(array('status' => 'done', 'found' => true, 'message' => 'courses information successfully found', 'courses' => $courses));
+});
+
+Route::get('/shop/courses', function(){
+	$courses = DB::select(
+		"SELECT id, name, urlfa, kind FROM courses WHERE status = 1 ORDER BY name ASC "
+	);
+	if(count($courses) === 0){
+		echo json_encode(array('status' => 'done', 'found' => false, 'message' => 'courses not found', 'courses' => []));
+		exit();
+	}
+	echo json_encode(array('status' => 'done', 'found' => true, 'message' => 'courses successfully found', 'courses' => $courses));
+});
+
+Route::get('/shop/arts', function(){
+	$arts = DB::select("SELECT id, artName AS name, art_url AS url FROM arts ORDER BY id ASC");
+	if(count($arts) === 0){
+		echo json_encode(array('status' => 'done', 'found' => false, 'message' => 'could not find any art', 'arts' => []));
+		exit();
+	}
+	echo json_encode(array('status' => 'done', 'found' => true, 'message' => 'arts are successfully found', 'arts' => $arts));
+});
+
+Route::post('/shop/courses-information', function(Request $request){
+	if(!isset($request->courseIds)){
+		echo json_encode(array('status' => 'failed', 'message' => 'not enough parameters'));
+		exit();
+	}
+	
+	$response = [];
+	$courseIds = json_decode($request->courseIds);
+	foreach($courseIds as $courseId){
+		$courseInfo = DB::select("SELECT name, cover_img, urlfa, price, off FROM courses WHERE id = $courseId LIMIT 1 ");
+		if(count($courseInfo) !== 0){
+			array_push($response, $courseInfo);
+		}
+	}
+	echo json_encode(array('status' => 'done', 'message' => 'course Information successfully found', 'courses' => $response));
 });

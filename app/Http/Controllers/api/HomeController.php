@@ -200,7 +200,7 @@ class HomeController extends Controller
         if (!$step){
             return response()->json(['message'=> '404 not find'], 404);
         }
-
+	if($user !== NULL ){
 	if($step->order === 1 && $user->role === NULL){
             $time = time();
             $courseRecord = DB::select(
@@ -218,6 +218,7 @@ class HomeController extends Controller
                 );
             }
         }
+	}
 
         if ($step->order !== 1)
         {
