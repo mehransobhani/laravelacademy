@@ -77,7 +77,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class , 'course_user' , 'user_id' , 'type_id')->withPivot('create_at','type' , 'value' , 'value1' , 'description')->where([
             ['type', '=' ,'class'],
-            ["status" , '=' , 1]
         ]);
     }
 

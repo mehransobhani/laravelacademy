@@ -156,3 +156,42 @@ Route::post('/shop/courses-information', function(Request $request){
 	}
 	echo json_encode(array('status' => 'done', 'message' => 'course Information successfully found', 'courses' => $response));
 });
+
+Route::post('/user-crm-info', function(Request $request){
+	if(!$request->hasHeader('token')){
+		echo json_encode(array('status' => 'failed', 'message' => 'header is missing'));
+		exit();
+	}
+	if(!isset($request->exUserId)){
+		echo json_encode(array('status' => 'failed', 'message' => 'some parameters are missing'));
+		exit();
+	}
+	$token = $request->header('token');
+	$exUserId = $request->exUserId;
+	if($token !== md5(md5($exUserId . "." . "12345^&*(H0n@r!54321)*&^54321"))){
+		echo json_encode(array('status' => 'failed', 'message' => 'user is not authenticated'));
+		exit();
+	}
+	$user = DB::select("SELECT * FROM users WHERE ex_user_id = $exUserId LIMIT 1");
+	if(count($user) == 0){
+		echo json_encode(array('status' => 'failed', 'message' => 'user not found'));
+		exit();
+	}
+	$user = $user[0];
+	$purchasedAmount = 0;
+	$coursesCount = 0;
+	$courses = '';
+	$result = DB::select("SELECT SUM(purchase_amount) AS price FROM course_user WHERE user_id = $user->id");
+	$result = $result[0];
+	if($result->price != null && $result->price != 0){
+		$purchasedAmount = $result->price;
+	}
+	$result = DB::select("SELECT CU.id, CU.type_id, C.name FROM course_user CU INNER JOIN courses C ON CU.type_id = C.id WHERE CU.user_id = $user->id");
+	if(count($result) != 0){
+		$coursesCount = count($result);
+		foreach($result AS $r){
+			$courses = $courses . $r->name . " + ";
+		}
+	}
+	echo json_encode(array('status' => 'done', 'message' => 'data successfully retrieved', 'coursesCount' => $coursesCount, 'purchasedAmount' => $purchasedAmount, 'courses' => $courses));
+});

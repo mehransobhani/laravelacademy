@@ -124,8 +124,9 @@ class HomeController extends Controller
         $course->where([
             ['urlfa' , '=' ,$course_urlfa],
         ]);
-
-        if ($user){
+	
+        /*
+	if ($user){
             if (!in_array($user->role , ['admin', 'contenter', 'writer'])){
                 $course->where([
                     ["status" , '=' ,1],
@@ -137,13 +138,26 @@ class HomeController extends Controller
                 ["status" , '=' ,1],
             ]);
         }
-
+	*/
 
         $course =   $course->first();
 
         if (!$course){
             return response()->json(['message'=> '404 not find'], 404);
         }
+
+	if($course->status == 0){
+		if($user){
+			if (!in_array($user->role , ['admin', 'contenter', 'writer'])){
+				$c = DB::select("SELECT * FROM course_user WHERE user_id = $user->id AND type_id = $course->id ");
+				if(count($c) == 0){
+					return response()->json(['message'=> '404 not find'], 404);
+				}
+            		}
+		}else{
+			return response()->json(['message'=> '404 not find'], 404);
+		}
+	}
         $course->makeHidden(["member_count" , "img"]);
         $course->arts->makeHidden(["pivot"]);
 
@@ -193,7 +207,7 @@ class HomeController extends Controller
 
         $step = Step::with(['get_course.get_steps' => function($query) {
             $query->addSelect(['id', 'name', 'class_id' , 'img' , 'order' , 'urlKey']);
-        }])->where('urlkey' , $step_urlkey)->where('status', 1)->first();
+        }])->where('urlkey' , $step_urlkey)->first();//->where('status', 1)->first();
         $user = Auth::guard('api')->user();
 	//var_dump($user);die();
 

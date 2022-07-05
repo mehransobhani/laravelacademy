@@ -20,6 +20,51 @@ class PaymentController extends Controller
 {
     public function checkDiscount(Request $request)
     {
+	
+	if($request->discountCode == 'sumr8'){
+            $user = Auth::guard('api')->user();
+            $course = Course::find($request->course);
+            $percent = 0;
+            $discountRate = 0;
+            $now = time();
+            $start = 1656703800;
+            $end = 1657135800;
+
+            if($now > $end){
+                $response = [
+                    'success' => false,
+                    'data' => ['discountRate' => 0 , 'discount_id' => 169 ],
+                    'message' => 'کد تخفیف منقضی شده است',
+                ];
+                return $response;
+            }
+            
+            $courses = DB::select("SELECT * FROM course_user WHERE user_id = $user->id AND create_at >= $start AND create_at <= $end ");
+	    if(count($courses) == 0){
+                $percent = 35;
+            }else if(count($courses) == 1){
+                $percent = 50;
+            }else if(count($courses) == 2){
+                $percent = 65;
+            }else if(count($courses) == 3){
+                $percent = 80;
+            }else if(count($courses) >= 4){
+		$response = [
+                    'success' => false,
+                    'data' => ['discountRate' => 0 , 'discount_id' => 164 ],
+                    'message' => 'دیگر امکان استفاده برای شما وجود ندارد',
+                ];
+                return $response;
+	    }
+            $discountRate = $course->price * ($percent / 100);
+            $response = [
+                'success' => true,
+                'data' => ['discountRate' => $discountRate , 'discount_id' => 169 ],
+                'message' => 'تخفیف اعمال شد.',
+            ];
+            return $response;
+        }
+
         $response = Gift::is_discount_ok($request->discountCode , $request->course);
 
         return response()->json($response);
@@ -57,6 +102,78 @@ class PaymentController extends Controller
         $discountRate = 0;
         $giftCodeId = null;
         if ($request->discount_code){
+	    
+	    if($request->discount_code == 'sumr8'){
+                $now = time();
+                $start = 1656703800;
+		$end = 1657135800;
+                $percent = 0;
+                if($now >= $start && $now <= $end){
+                    $courses = DB::select("SELECT id FROM course_user WHERE create_at >= $start AND create_at <= $end  AND `user_id` = $user->id ");
+                    if(count($courses) == 0){
+                        $percent = 35;
+                    }else if(count($courses) == 1){
+                        $percent = 50;
+                    }else if(count($courses) == 2){
+                        $percent = 65;
+                    }else if(count($courses) == 3){
+                        $percent = 80;
+                    }else if(count($courses) >= 4){
+			$response = [
+                    		'success' => false,
+                    		'data' => ['discountRate' => 0 , 'discount_id' => 169 ],
+                    		'message' => 'دیگر امکان استفاده برای شما وجود ندارد',
+                	];
+                	return $response;
+		    }
+
+                    $price = $course->price - (($percent / 100)* $course->price);
+                    
+
+                    $class_trans = new ClassTrans;
+
+                    $class_trans->user_id = $user->id;
+                    $class_trans->price = $price;
+                    $class_trans->kind = $course->kind === "bundle" ? "bundle" : "course_class" ;
+                    $class_trans->class_register_id = $request->class_id;
+                    $class_trans->gift_id = 169;
+                    $class_trans->status = 0;
+                    $class_trans->created_at = time();
+                    $class_trans->bank = 'pasargad';
+
+                    $class_trans->save();
+
+                    $pasargad = new Pasargad;
+
+                    $params['amount'] = $price*10;
+                    $params['invoiceNumber'] = $class_trans->id;
+                    $params['invoiceDate'] = date("Y/m/d H:i:s");
+
+
+                    $response = $pasargad->getToken($params);
+
+                    if ($response->IsSuccess) {
+                        $time = time();
+                        DB::insert(
+                            "INSERT INTO user_footprints (
+                                user_id, course_id, action_id, date
+                            ) VALUES (
+                                $user->id, $request->class_id, 4, $time
+                            )"
+                        );
+                        return "https://pep.shaparak.ir/payment.aspx?n=" .$response->Token ;
+                    }
+                    else {
+                        $response = [
+                            'success' => false,
+                            'data' => [],
+                            'message' => 'مشکلی پیش آمد لطفا با پشتیبانی سایت ارتباط برقرار کنید.',
+                        ];
+                        return response()->json($response , 400);
+                    }
+                }
+            }
+
             $response = Gift::is_discount_ok($request->discount_code , $request->class_id);
 
             if ($response['success']){
